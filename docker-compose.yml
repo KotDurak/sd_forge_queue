@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: sd-gateway-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    # 🔥 ЯДЕРНАЯ ЗАЩИТА ПАМЯТИ:
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy volatile-lru
+    restart: unless-stopped
+
+volumes:
+  redis-data:
